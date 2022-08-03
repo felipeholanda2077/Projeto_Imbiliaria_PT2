@@ -34,6 +34,7 @@ function Home({navigation}) {
   );
 }
 
+
 const estilo = StyleSheet.create({
   vendido: {
     color: 'red',
