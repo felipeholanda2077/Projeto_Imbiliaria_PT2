@@ -65,8 +65,8 @@ export default class Database {
                         var len = results.rows.length;
                         for (let i = 0; i < len; i++) {
                             let row = results.rows.item(i);
-                            const { id, modelo, marca, ano, imagem } = row;
-                            lista.push({ id, modelo, marca, ano, imagem });
+                            const { id, imobiliaria, imagem, preco } = row;
+                            lista.push({ id, imobiliaria, imagem, preco });
                         }
                         console.log(lista);
                         resolve(lista);
@@ -89,7 +89,7 @@ export default class Database {
             this.Conectar().then((db) => {      
                 db.transaction((tx) => {     
                     //Query SQL para inserir um novo produto   
-                    tx.executeSql('INSERT INTO Veiculo (imobiliaria, imagem, preco) VALUES (?, ?, ?, ?)', [item.imobiliaria, item.imagem, item.preco]).then(([tx, results]) => { 
+                    tx.executeSql('INSERT INTO Imovel (imobiliaria, imagem, preco) VALUES (?, ?, ?)', [item.imobiliaria, item.imagem, item.preco]).then(([tx, results]) => { 
                         resolve(results);        
                     });      
                 }).then((result) => {        
