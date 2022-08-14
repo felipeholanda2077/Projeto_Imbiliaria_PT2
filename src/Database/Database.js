@@ -89,7 +89,7 @@ export default class Database {
             this.Conectar().then((db) => {      
                 db.transaction((tx) => {     
                     //Query SQL para inserir um novo produto   
-                    tx.executeSql('INSERT INTO Imovel (imobiliaria, imagem, preco) VALUES (?, ?, ?)', [item.imobiliaria, item.imagem, item.preco]).then(([tx, results]) => { 
+                    tx.executeSql('INSERT INTO Imovel (imobiliaria, imagem, preco) VALUES (?, ?, ?, ?)', [item.imobiliaria, item.imagem, item.preco]).then(([tx, results]) => { 
                         resolve(results);        
                     });      
                 }).then((result) => {        

@@ -1,7 +1,11 @@
-import React, {useState} from 'react';
-import {DevSettings} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import React, { Component } from 'react';
+import { DevSettings } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import Database from '../../Database/Database';
+import Lista from '../../Model/Lista';
 
 import {
   View,
@@ -9,57 +13,58 @@ import {
   Button,
   TextInput,
   StyleSheet,
-  TouchableOpacity,
 } from 'react-native';
 
-function Cadastro({navigation}) {
-  const [imobiliaria, setImobiliaria] = useState('');
-  const [preco, setPreco] = useState('');
-
-  function handleSignIn() {
-    if (imobiliaria === '' || preco === '') {
-      alert('Preencha todos os campos');
-      return;
-    }
-
-    const data = {
-      imobiliaria,
-      preco,
+export default class Cadastro extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      imobiliaria: 'Em Branco',
+      imagem: '',
+      preco: '0',
     };
-
-    console.log(data);
   }
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Cadastre seu Imovel</Text>
 
-      <TextInput
-        style={styles.input}
-        onChangeText={setImobiliaria}
-        value={imobiliaria}
-        placeholder="Nome da Imobiliária"
-      />
+  CadastrarBanco = (imobiliaria, imagem, preco) => {
+    const banco = new Database();
+    const imovel = new Lista(null, imobiliaria, imagem, preco)
+    banco.Inserir(imovel);
+  }
 
-      <Button
-        title="Tirar Foto"
-        onPress={() => {
-          navigation.navigate('Camera');
-        }}
-      />
 
-      <TextInput
-        style={styles.input}
-        onChangeText={setPreco}
-        value={preco}
-        placeholder="Preço do Imovel"
-      />
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Cadastre seu Imovel</Text>
 
-      <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-        <Text style={styles.buttonText}>Cadastrar Casa</Text>
-      </TouchableOpacity>
-    </View>
-  );
+        <TextInput
+          style={styles.input}
+          onChangeText={(valor) => { this.setState({ imobiliaria: valor }) }}
+          placeholder="Nome da Imobiliária"
+        />
+
+        <Button
+          title="Tirar Foto"
+          onPress={() => {
+            navigation.navigate('Camera');
+          }}
+          onChangeText={(valor) => { this.setState({ imagem: valor }) }}
+        />
+
+        <TextInput
+          style={styles.input}
+          onChangeText={(valor) => { this.setState({ preco: valor }) }}
+          placeholder="Preço do Imovel"
+        />
+
+        <TouchableOpacity style={styles.button} onPress={() => this.CadastrarBanco(this.state.imobiliaria, this.state.imagem, this.state.preco)}>
+          <Text style={styles.buttonText}>Cadastrar Casa</Text>
+        </TouchableOpacity>
+      </View>
+
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -101,4 +106,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Cadastro;

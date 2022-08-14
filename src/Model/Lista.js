@@ -1,7 +1,8 @@
 export default class Lista {
-  constructor(imobiliaria, casa, preco) {
+  constructor(id, imobiliaria, imagem, preco) {
+    this.id = id;
     this.imobiliaria = imobiliaria;
-    this.casa = casa;
+    this.imagem = imagem;
     this.preco = preco;
   }
 }
